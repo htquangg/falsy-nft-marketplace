@@ -5,10 +5,12 @@ metadata:
 deploy:
   helm:
     releases:
-      - name: redis
+      - name: graphql-mesh
         recreatePods: false
-        skipBuildDependencies: false
+        skipBuildDependencies: true
         useHelmSecrets: false
-        wait: false
-      - name: istio-gateway
+        wait: true
+        namespace: gateway
+        createNamespace: true
+        chartPath: deployments/helm/gateway/graphql-mesh
       

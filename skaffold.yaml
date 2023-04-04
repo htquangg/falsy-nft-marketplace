@@ -6,16 +6,12 @@ metadata:
   name: dev
 requires:
   - path: skaffold.monitoring.yaml
+  - path: skaffold.infra.yaml
 build:
-  tagPolicy:
-    sha256: {}
-  artifacts:
-  - context: .
-    image: go-hello-world
-deploy:
-  kubectl:
-    manifests:
-    - kubernetes-manifests/**
+  local:
+    concurrency: 1
+    tryImportMissing: false
+    useDockerCLI: false
 profiles:
 - name: cloudbuild
   build:
