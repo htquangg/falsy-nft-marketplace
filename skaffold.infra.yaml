@@ -13,4 +13,7 @@ deploy:
         namespace: gateway
         createNamespace: true
         chartPath: deployments/helm/gateway/graphql-mesh
-      
+      - name: istio-gateway
+        chartPath: 
+        namespace: istio-system
+        
