@@ -916,10 +916,10 @@
     multer "1.4.4-lts.1"
     tslib "2.5.0"
 
-"@nestjs/platform-fastify@^9.3.12":
-  version "9.3.12"
-  resolved "https://registry.npmjs.org/@nestjs/platform-fastify/-/platform-fastify-9.3.12.tgz"
-  integrity sha512-ka38q4gPgsZFhghrZs8r4XBc3Y7tGlc25pqlHXiUT2+k8THrlBPKkqNweWrRlWnuI64+VR2L3jz5wYd9T5WF7A==
+"@nestjs/platform-fastify@^9.4.0":
+  version "9.4.0"
+  resolved "https://registry.yarnpkg.com/@nestjs/platform-fastify/-/platform-fastify-9.4.0.tgz#8347ac655e70971241b621ebd00e7f1726d0f8be"
+  integrity sha512-v8Gqo/gWkIVq/DjIyAbGA/1QgGNnvHYfp8adRXBx4la/S042bqnNSSRCZlfrmK7fCDkkhKqwrWGtQvP6pe2fig==
   dependencies:
     "@fastify/cors" "8.2.1"
     "@fastify/formbody" "7.4.0"
