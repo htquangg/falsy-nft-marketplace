@@ -1,0 +1,20 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: {{ include "istio.fullname" . }}
+
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 31500
+        name: api
+        protocol: HTTPS
+      hosts:
+        - api.falsy.oss.com
+      tls:
+        credentialName: cert-api-falsy
+        mode: SIMPLE
+        privateKey: sds
+        serverCertificate: sds

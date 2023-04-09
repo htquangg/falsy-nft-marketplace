@@ -5,8 +5,10 @@ kind: Config
 metadata:
   name: dev
 requires:
+  - path: skaffold.backend.yaml
   - path: skaffold.monitoring.yaml
   - path: skaffold.infra.yaml
+  - path: skaffold.gateway.yaml
 build:
   local:
     concurrency: 1

@@ -13,4 +13,5 @@ deploy:
         namespace: gateway
         createNamespace: true
         chartPath: deployments/helm/gateway/graphql-mesh
-      
+
+        
