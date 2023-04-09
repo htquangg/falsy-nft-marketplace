@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: api-falsy
+  namespace: istio-system
+spec:
+  commonName: api.falsy.oss.com
+  dnsNames:
+    - api.falsy.oss.com
+  issuerRef:
+    name: api-falsy
+    kind: ClusterIssuer
+  secretName: cert-api-falsy

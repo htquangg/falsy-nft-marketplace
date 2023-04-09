@@ -1,21 +1,35 @@
 apiVersion: skaffold/v2beta28
 kind: Config
 metadata:
-  name: backend
+  name: gateway
 profiles:
-  - name: backend
+  - name: gateway
     activation:
       - kubeContext: minikube
-        env: ACTIVATE_MONITORING=true
+        env: ENV=local
         command: local
 deploy:
   helm:
     releases:
-      - name: upload-service
+      - name: istio-base
+        remoteChart: base
+        repo: https://istio-release.storage.googleapis.com/charts
+        namespace: istio-system
+        createNamespace: true
+      - name: istio-gateway
         recreatePods: false
         skipBuildDependencies: true
         useHelmSecrets: false
         wait: true
-        namespace: backend
+        namespace: istio-system
         createNamespace: true
-        chartPath: deployments/helm/backend/test-service
+        chartPath: deployments/helm/gateway/istio
+      - name: cert-manager
+        remoteChart: cert-manager
+        repo: https://charts.jetstack.io
+        version: v1.11.0
+        namespace: cert-manager
+        createNamespace: true
+        wait: true
+        setValueTemplates:
+          installCRDs: true
