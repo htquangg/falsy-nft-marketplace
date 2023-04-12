@@ -6,12 +6,7 @@ export class TokenDto {
   })
   token: string;
 
-  @ApiProperty({
-    name: 'expireIn',
-  })
-  expireIn: string;
-  constructor(token: string, expireIn: string) {
+  constructor(token: string) {
     this.token = token;
-    this.expireIn = expireIn;
   }
 }

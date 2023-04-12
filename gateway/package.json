@@ -1,0 +1,14 @@
+{
+  "name": "gateway",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "mesh dev"
+  },
+  "keywords": [
+    "gateway"
+  ],
+  "author": "uuhnaut69",
+  "license": "MIT"
+}

@@ -1,0 +1,8 @@
+sources:
+  - name: Auth-Service
+    handler:
+      openapi:
+        source: "{env.AUTH_SERVICE}/api-json"
+        endpoint: "{env.AUTH_SERVICE}"
+serve:
+  hostname: 0.0.0.0

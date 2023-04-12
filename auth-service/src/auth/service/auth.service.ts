@@ -47,7 +47,7 @@ export class AuthService {
         sub: user.id,
       });
 
-      return new TokenDto(token, this.envService.jwtExprirationTime);
+      return new TokenDto(token);
     } catch (error) {
       throw new UnauthorizedException(error);
     }
