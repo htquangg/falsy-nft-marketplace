@@ -14,3 +14,7 @@ export async function login(): Promise<void> {
 		console.error(error);
 	}
 }
+
+export async function logout(): Promise<void> {
+	authStore.set(null);
+}

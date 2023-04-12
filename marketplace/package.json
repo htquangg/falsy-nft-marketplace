@@ -37,9 +37,12 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@material-tailwind/html": "^2.0.0",
+		"@popperjs/core": "^2.11.7",
+		"classnames": "^2.3.2",
 		"dotenv": "^16.0.3",
 		"ethers": "^6.3.0",
+		"flowbite": "^1.6.5",
+		"flowbite-svelte": "^0.34.9",
 		"web3-token": "^1.0.5"
 	}
 }
