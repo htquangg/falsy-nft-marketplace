@@ -49,7 +49,10 @@ export class AuthService {
 
       return new TokenDto(token);
     } catch (error) {
+      this.logger.error(error?.message, error?.stack);
       throw new UnauthorizedException(error);
+    } finally {
+      await this.nonceService.clearNonceByUser(authenticateDto.address);
     }
   }
 

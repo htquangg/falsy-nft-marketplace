@@ -32,6 +32,15 @@ export class NonceService {
   }
 
   /**
+   * Clear nonce by user
+   *
+   * @param address Address
+   */
+  public async clearNonceByUser(address: string): Promise<void> {
+    this.redis.del(`nonce:address:${address}`);
+  }
+
+  /**
    * Get current nonce of user
    *
    * @param address Wallet address

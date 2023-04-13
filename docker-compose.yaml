@@ -47,7 +47,7 @@ services:
     stdin_open: true
     tty: true
     volumes:
-      - ./gateway/.meshrc.yaml:/usr/src/app/.meshrc.yaml
+      - ./gateway/.meshrc.yml:/usr/src/app/.meshrc.yml
     depends_on:
       - auth-service
     env_file:

@@ -16,6 +16,7 @@ export class AuthController {
   ) {}
 
   @ApiOperation({
+    operationId: 'challengeNonce',
     summary: 'Challenge user nonce',
   })
   @ApiBody({
@@ -34,6 +35,7 @@ export class AuthController {
   }
 
   @ApiOperation({
+    operationId: 'login',
     summary: 'Login',
   })
   @ApiBody({
