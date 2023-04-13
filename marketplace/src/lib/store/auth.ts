@@ -11,7 +11,7 @@ export async function login(): Promise<void> {
 		const token = await sign(async (msg: string) => await signer.signMessage(msg), '1d');
 		authStore.set(signer.address);
 	} catch (error) {
-		console.error(error);
+		/* empty */
 	}
 }
 
