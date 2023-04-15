@@ -1,6 +1,6 @@
 export class NonceDto {
-  nonce: string;
-  constructor(nonce: string) {
+  nonce: number;
+  constructor(nonce: number) {
     this.nonce = nonce;
   }
 }

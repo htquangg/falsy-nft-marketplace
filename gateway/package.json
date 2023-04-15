@@ -10,5 +10,11 @@
   ],
   "author": "uuhnaut69",
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {
+    "@graphql-mesh/cli": "^0.82.32",
+    "@graphql-mesh/graphql": "^0.34.16",
+    "@graphql-mesh/openapi": "^0.36.0",
+    "@graphql-mesh/runtime": "^0.46.23",
+    "graphql": "^16.6.0"
+  }
 }

@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class EnvService {
+  nodeEnv: string;
   databaseHost: string;
 
   databasePort: number;
@@ -24,6 +25,7 @@ export class EnvService {
   jwtExprirationTime: string;
 
   constructor(private readonly configService: ConfigService) {
+    this.nodeEnv = this.configService.get<string>('NODE_ENV');
     this.databaseHost = this.configService.get<string>('DATABASE_HOST');
     this.databasePort = this.configService.get<number>('DATABASE_PORT') || 5432;
     this.databaseName = this.configService.get<string>('DATABASE_NAME');

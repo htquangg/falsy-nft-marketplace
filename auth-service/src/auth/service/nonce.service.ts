@@ -1,13 +1,14 @@
 import { InjectRedis } from '@nestjs-modules/ioredis';
 import { Injectable, Logger } from '@nestjs/common';
 import Redis from 'ioredis';
-import { nanoid } from 'nanoid';
+import { customAlphabet } from 'nanoid';
 import { EnvService } from '../../core/env.service';
 import { NonceDto } from '../model/dto/nonce.dto';
 
 @Injectable()
 export class NonceService {
   private readonly logger: Logger = new Logger(NonceService.name);
+  private readonly customNanoId = customAlphabet('1234567890', 8);
   constructor(
     private readonly envService: EnvService,
     @InjectRedis() private readonly redis: Redis,
@@ -21,14 +22,14 @@ export class NonceService {
    */
   public async generateNonceForUser(address: string): Promise<NonceDto> {
     this.logger.debug(`Generate new nonce for address ${address}`);
-    const nonce = nanoid();
+    const nonce = this.customNanoId();
     await this.redis.set(
       `nonce:address:${address}`,
-      nanoid(),
+      nonce,
       'EX',
       this.envService.nonceTtl,
     );
-    return new NonceDto(nonce);
+    return new NonceDto(Number(nonce));
   }
 
   /**

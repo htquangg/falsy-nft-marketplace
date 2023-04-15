@@ -11,9 +11,17 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test:unit": "vitest",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
-		"format": "prettier --plugin-search-dir . --write ."
+		"format": "prettier --plugin-search-dir . --write .",
+		"codegen": "graphql-codegen --config codegen.ts"
 	},
 	"devDependencies": {
+		"@graphql-codegen/cli": "3.3.0",
+		"@graphql-codegen/fragment-matcher": "^4.0.1",
+		"@graphql-codegen/introspection": "3.0.1",
+		"@graphql-codegen/typed-document-node": "^4.0.0",
+		"@graphql-codegen/typescript": "3.0.3",
+		"@graphql-codegen/typescript-apollo-client-helpers": "^2.2.6",
+		"@graphql-codegen/typescript-document-nodes": "3.0.3",
 		"@graphql-eslint/eslint-plugin": "^3.18.0",
 		"@playwright/test": "^1.28.1",
 		"@sveltejs/adapter-auto": "^2.0.0",

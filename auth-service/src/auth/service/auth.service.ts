@@ -50,7 +50,7 @@ export class AuthService {
       return new TokenDto(token);
     } catch (error) {
       this.logger.error(error?.message, error?.stack);
-      throw new UnauthorizedException(error);
+      throw new UnauthorizedException(error?.message);
     } finally {
       await this.nonceService.clearNonceByUser(authenticateDto.address);
     }
@@ -66,15 +66,22 @@ export class AuthService {
   public async recoverSignerAddress(
     authenticateDto: AuthenticationDto,
   ): Promise<string> {
-    const currentNonce = await this.nonceService.getCurrentNonceOfUser(
-      authenticateDto.address,
-    );
+    try {
+      const currentNonce = await this.nonceService.getCurrentNonceOfUser(
+        authenticateDto.address,
+      );
 
-    const { address } = Web3Token.verify(authenticateDto.signature, {
-      domain: this.envService.trustedDomain,
-      nonce: currentNonce,
-    });
+      const { address } = Web3Token.verify(authenticateDto.signature, {
+        nonce: currentNonce,
+        // By pass domain check in dev mode
+        ...(this.envService.trustedDomain === 'development' && {
+          domain: this.envService.trustedDomain,
+        }),
+      });
 
-    return address;
+      return address;
+    } catch (error) {
+      throw new UnauthorizedException('Invalid signature');
+    }
   }
 }
