@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import {
 		CHALLENGE_NONCE_MUTATION,
 		LOGIN_MUTATION,
@@ -32,19 +33,29 @@
 				const provider = new ethers.BrowserProvider(window.ethereum);
 				const signer = await provider.getSigner();
 
-				const { data: nonceDto } = await client.mutate<NonceDto, ChallengeDto_Input>({
+				const { data: nonceDto, errors: challengeErrors } = await client.mutate<
+					NonceDto,
+					ChallengeDto_Input
+				>({
 					mutation: CHALLENGE_NONCE_MUTATION,
 					variables: {
 						address: signer.address
 					}
 				});
 
+				if (challengeErrors && challengeErrors?.length > 0) {
+					throw error(403, challengeErrors[0].message);
+				}
+
 				const signature = await sign(async (msg: string) => await signer.signMessage(msg), {
 					expires_in: '1d',
 					nonce: nonceDto?.nonce
 				});
 
-				const { data: tokenDto } = await client.mutate<TokenDto, AuthenticationDto_Input>({
+				const { data: tokenDto, errors: authenticateErrors } = await client.mutate<
+					TokenDto,
+					AuthenticationDto_Input
+				>({
 					mutation: LOGIN_MUTATION,
 					variables: {
 						address: signer.address,
@@ -52,9 +63,18 @@
 					}
 				});
 
+				if (authenticateErrors && authenticateErrors?.length > 0) {
+					throw error(403, authenticateErrors[0].message);
+				}
+
 				isAuthenticated = true;
 			} catch (err: any) {
-				throw error(400, err?.message);
+				throw error(403, err?.message);
+			}
+		} else {
+			if (browser) {
+				// Redirect to metamask page
+				window.location.href = 'https://metamask.io/';
 			}
 		}
 	};
@@ -79,10 +99,10 @@
 		<div class="flex items-center md:order-1">
 			<NavUl {hidden}>
 				<NavLi href="/" active={true}>Home</NavLi>
-				<NavLi href="/about">About</NavLi>
-				<NavLi href="/services">Services</NavLi>
-				<NavLi href="/pricing">Pricing</NavLi>
-				<NavLi href="/contact">Contact</NavLi>
+				<NavLi href="/">About</NavLi>
+				<NavLi href="/">Services</NavLi>
+				<NavLi href="/">Pricing</NavLi>
+				<NavLi href="/">Contact</NavLi>
 			</NavUl>
 		</div>
 		<div class="flex md:order-2">
