@@ -33,7 +33,7 @@ type Mutation {
   Perform challenge nonce for authentication.
   
   """
-  challenge(input: ChallengeDto_Input): String
+  challenge(input: ChallengeDto_Input): ResponseString
 
   """
   
@@ -43,11 +43,21 @@ type Mutation {
   Perform login action.
   
   """
-  login(input: AuthenticationDto_Input): Boolean
+  login(input: AuthenticationDto_Input): ResponseBoolean
 }
 
 scalar ObjMap
 
 type Query {
   dummy: String
+}
+
+type ResponseBoolean {
+  data: Boolean
+  status: Int!
+}
+
+type ResponseString {
+  data: String
+  status: Int!
 }

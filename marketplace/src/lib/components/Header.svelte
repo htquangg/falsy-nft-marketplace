@@ -19,7 +19,6 @@
 	let user: boolean;
 
 	const challengeNonce = new challengeStore();
-
 	const authStore = new loginStore();
 
 	const login = async () => {
@@ -44,6 +43,7 @@
 
 				const message = new SiweMessage({
 					address,
+					statement: 'Sign in with Ethereum to the app.',
 					domain: window.location.host,
 					uri: window.location.origin,
 					nonce,
@@ -54,12 +54,17 @@
 				const signature = await signer.signMessage(message);
 
 				const { data: loginData, errors: loginErrors } = await authStore.mutate({
-					address: address,
-					signature: signature,
-					message: message
+					address,
+					signature,
+					message
 				});
 
-				if (!loginData || !loginData.login || (loginErrors && loginErrors?.length > 0)) {
+				if (
+					!loginData ||
+					!loginData.login ||
+					!loginData.login.data ||
+					(loginErrors && loginErrors?.length > 0)
+				) {
 					// TODO emit error toast
 					return;
 				}

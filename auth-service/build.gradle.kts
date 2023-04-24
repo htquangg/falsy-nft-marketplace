@@ -47,6 +47,7 @@ dependencies {
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.springframework.security:spring-security-test")
 
+    implementation("com.aventrix.jnanoid:jnanoid:2.0.0")
     implementation("io.r2dbc:r2dbc-proxy:1.0.1.RELEASE")
     implementation("com.moonstoneid:siwe-java:1.0.1")
     implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.1.0")
