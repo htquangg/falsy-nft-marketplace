@@ -1,15 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import {
-		CHALLENGE_NONCE_MUTATION,
-		LOGIN_MUTATION,
-		client,
-		type AuthenticationDto_Input,
-		type ChallengeDto_Input,
-		type NonceDto,
-		type TokenDto
-	} from '$lib/graphql';
-	import { error } from '@sveltejs/kit';
+	import { challengeStore, loginStore } from '$houdini';
 	import { ethers } from 'ethers';
 	import {
 		Avatar,
@@ -23,64 +14,72 @@
 		NavUl,
 		Navbar
 	} from 'flowbite-svelte';
-	import { sign } from 'web3-token';
+	import { SiweMessage } from 'siwe';
 
-	$: isAuthenticated = false;
+	let user: boolean;
+
+	const challengeNonce = new challengeStore();
+
+	const authStore = new loginStore();
 
 	const login = async () => {
-		if (window.ethereum) {
-			try {
-				const provider = new ethers.BrowserProvider(window.ethereum);
-				const signer = await provider.getSigner();
+		try {
+			if (window.ethereum) {
+				const provider = new ethers.providers.Web3Provider(window.ethereum);
+				await provider.send('eth_requestAccounts', []);
+				const signer = provider.getSigner();
 
-				const { data: nonceDto, errors: challengeErrors } = await client.mutate<
-					NonceDto,
-					ChallengeDto_Input
-				>({
-					mutation: CHALLENGE_NONCE_MUTATION,
-					variables: {
-						address: signer.address
-					}
+				const address = await signer.getAddress();
+
+				const { data: challengeData, errors: challengeErrors } = await challengeNonce.mutate({
+					address
 				});
 
-				if (challengeErrors && challengeErrors?.length > 0) {
-					throw error(403, challengeErrors[0].message);
+				if (!challengeData || (challengeErrors && challengeErrors?.length > 0)) {
+					// TODO emit error toast
+					return;
 				}
 
-				const signature = await sign(async (msg: string) => await signer.signMessage(msg), {
-					expires_in: '1d',
-					nonce: nonceDto?.nonce
+				const nonce = challengeData.challenge?.data as string;
+
+				const message = new SiweMessage({
+					address,
+					domain: window.location.host,
+					uri: window.location.origin,
+					nonce,
+					chainId: 1,
+					version: '1'
+				}).prepareMessage();
+
+				const signature = await signer.signMessage(message);
+
+				const { data: loginData, errors: loginErrors } = await authStore.mutate({
+					address: address,
+					signature: signature,
+					message: message
 				});
 
-				const { data: tokenDto, errors: authenticateErrors } = await client.mutate<
-					TokenDto,
-					AuthenticationDto_Input
-				>({
-					mutation: LOGIN_MUTATION,
-					variables: {
-						address: signer.address,
-						signature
-					}
-				});
-
-				if (authenticateErrors && authenticateErrors?.length > 0) {
-					throw error(403, authenticateErrors[0].message);
+				if (!loginData || !loginData.login || (loginErrors && loginErrors?.length > 0)) {
+					// TODO emit error toast
+					return;
 				}
-
-				isAuthenticated = true;
-			} catch (err: any) {
-				throw error(403, err?.message);
+			} else {
+				if (browser) {
+					// Redirect to metamask page
+					window.location.href = 'https://metamask.io/';
+				}
 			}
-		} else {
-			if (browser) {
-				// Redirect to metamask page
-				window.location.href = 'https://metamask.io/';
+		} catch (error) {
+			console.log(error);
+			if (error instanceof Error) {
+				// TODO emit error toast
+				return;
 			}
 		}
 	};
 
-	const logout = () => {
-		isAuthenticated = false;
+	const signout = async () => {
+		return;
 	};
 </script>
 
@@ -106,7 +105,7 @@
 			</NavUl>
 		</div>
 		<div class="flex md:order-2">
-			{#if !isAuthenticated}
+			{#if !user}
 				<Button color="purple" on:click={() => login()}>Connect Wallet</Button>
 			{:else}
 				<Avatar
@@ -119,7 +118,7 @@
 					<DropdownItem>Watchlist</DropdownItem>
 					<DropdownItem>My Collections</DropdownItem>
 					<DropdownDivider />
-					<DropdownItem on:click={() => logout()}>Sign out</DropdownItem>
+					<DropdownItem on:click={() => signout()}>Sign out</DropdownItem>
 				</Dropdown>
 			{/if}
 		</div>

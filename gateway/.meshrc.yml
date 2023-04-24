@@ -1,9 +1,12 @@
 sources:
-  - name: AuthRestAPI
+  - name: AuthService
     handler:
       openapi:
-        source: "{env.AUTH_SERVICE}/api-json"
+        source: "{env.AUTH_SERVICE}/v3/api-docs"
         endpoint: "{env.AUTH_SERVICE}"
         ignoreErrorResponses: true
+
 serve:
   hostname: 0.0.0.0
+  cors:
+    credentials: true

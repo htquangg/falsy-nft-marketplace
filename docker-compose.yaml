@@ -21,47 +21,47 @@ services:
     restart: on-failure
 
   ### Service
-  auth-service:
-    container_name: auth-service
-    image: falsyoss/auth-service:latest
-    build:
-      context: auth-service
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    depends_on:
-      - authdb
-      - redis
-    env_file:
-      - auth-service/dev.env
-    restart: on-failure
+  # auth-service:
+  #   container_name: auth-service
+  #   image: falsyoss/auth-service:latest
+  #   build:
+  #     context: auth-service
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - authdb
+  #     - redis
+  #   env_file:
+  #     - auth-service/dev.env
+  #   restart: on-failure
 
-  gateway:
-    container_name: gateway
-    image: falsyoss/gateway:latest
-    build:
-      context: gateway
-      dockerfile: Dockerfile
-    ports:
-      - "4000:4000"
-    stdin_open: true
-    tty: true
-    volumes:
-      - ./gateway/.meshrc.yml:/usr/src/app/.meshrc.yml
-    depends_on:
-      - auth-service
-    env_file:
-      - gateway/dev.env
-    restart: on-failure
+  # gateway:
+  #   container_name: gateway
+  #   image: falsyoss/gateway:latest
+  #   build:
+  #     context: gateway
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "4000:4000"
+  #   stdin_open: true
+  #   tty: true
+  #   volumes:
+  #     - ./gateway/.meshrc.yml:/usr/src/app/.meshrc.yml
+  #   depends_on:
+  #     - auth-service
+  #   env_file:
+  #     - gateway/dev.env
+  #   restart: on-failure
 
-  marketplace:
-    container_name: marketplace
-    image: falsyoss/marketplace:latest
-    build:
-      context: marketplace
-      dockerfile: Dockerfile
-    ports:
-      - "4567:3000"
-    depends_on:
-      - gateway
-    restart: on-failure
+  # marketplace:
+  #   container_name: marketplace
+  #   image: falsyoss/marketplace:latest
+  #   build:
+  #     context: marketplace
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "4567:3000"
+  #   depends_on:
+  #     - gateway
+  #   restart: on-failure

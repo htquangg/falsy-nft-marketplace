@@ -1,19 +1,19 @@
-import { gql } from '@apollo/client';
+import { graphql } from '$houdini';
 
-const CHALLENGE_NONCE_MUTATION = gql(`
-    mutation challengeNonce($address: String!) {
-        challengeNonce(input: {address: $address}) {
-            nonce
-        }
-    }
+const CHALLENGE_NONCE_MUTATION = graphql(`
+	mutation challenge($address: String!) {
+		challenge(input: { address: $address }) {
+			data
+		}
+	}
 `);
 
-const LOGIN_MUTATION = gql(`
-    mutation login($address: String!, $signature: String!) {
-        login(input: {address: $address, signature: $signature}) {
-            token
-        }
-    }
+const LOGIN_MUTATION = graphql(`
+	mutation login($address: String!, $signature: String!, $message: String!) {
+		login(input: { address: $address, signature: $signature, message: $message }) {
+			data
+		}
+	}
 `);
 
 export { CHALLENGE_NONCE_MUTATION, LOGIN_MUTATION };
