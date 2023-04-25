@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { challengeStore, loginStore } from '$houdini';
+	import { graphql } from '$houdini';
 	import { ethers } from 'ethers';
 	import {
 		Avatar,
@@ -18,8 +18,21 @@
 
 	let user: boolean;
 
-	const challengeNonce = new challengeStore();
-	const authStore = new loginStore();
+	const challengeMutation = graphql(`
+		mutation challenge($address: String!) {
+			challenge(input: { address: $address }) {
+				data
+			}
+		}
+	`);
+
+	const loginMutation = graphql(`
+		mutation login($address: String!, $signature: String!, $message: String!) {
+			login(input: { address: $address, signature: $signature, message: $message }) {
+				data
+			}
+		}
+	`);
 
 	const login = async () => {
 		try {
@@ -30,7 +43,7 @@
 
 				const address = await signer.getAddress();
 
-				const { data: challengeData, errors: challengeErrors } = await challengeNonce.mutate({
+				const { data: challengeData, errors: challengeErrors } = await challengeMutation.mutate({
 					address
 				});
 
@@ -53,7 +66,7 @@
 
 				const signature = await signer.signMessage(message);
 
-				const { data: loginData, errors: loginErrors } = await authStore.mutate({
+				const { data: loginData, errors: loginErrors } = await loginMutation.mutate({
 					address,
 					signature,
 					message

@@ -21,9 +21,7 @@ import reactor.core.publisher.Mono
  */
 @Service
 @Transactional
-class AuthenticationService(
-    val accountRepository: AccountRepository
-) {
+class AuthenticationService(val accountRepository: AccountRepository) {
     companion object {
         private val logger = LoggerFactory.getLogger(AuthenticationService::class.java)
     }
