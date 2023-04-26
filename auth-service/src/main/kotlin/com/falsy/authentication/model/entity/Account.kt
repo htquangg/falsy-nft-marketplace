@@ -1,11 +1,15 @@
 package com.falsy.authentication.model.entity
 
 import com.aventrix.jnanoid.jnanoid.NanoIdUtils
-import com.falsy.authentication.model.core.BaseEntity
-import org.springframework.data.relational.core.mapping.Table
+import org.springframework.data.cassandra.core.cql.PrimaryKeyType
+import org.springframework.data.cassandra.core.mapping.Column
+import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
+import org.springframework.data.cassandra.core.mapping.Table
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
+import java.io.Serializable
+import java.time.Instant
 
 /**
  * auth-service
@@ -14,17 +18,32 @@ import org.springframework.security.core.userdetails.UserDetails
  *
  */
 @Table(value = "account")
-class Account(val address: String) : BaseEntity(), UserDetails {
+class Account(
+    @PrimaryKeyColumn(
+        type = PrimaryKeyType.PARTITIONED
+    ) val address: String
+) : UserDetails, Serializable {
 
+    @Column(value = "display_name")
     var displayName: String? = null
 
+    @Column(value = "avatar_url")
     var avatarUrl: String? = null
 
+    @Column(value = "cover_url")
     var coverUrl: String? = null
 
+    @Column(value = "role")
     var role: Role = Role.ROLE_USER
 
+    @Column(value = "nonce")
     var nonce: String = ""
+
+    @Column(value = "created_date")
+    var createdDate: Instant = Instant.now()
+
+    @Column(value = "modified_date")
+    var modifiedDate: Instant = Instant.now()
 
     fun randomNonce() {
         this.nonce = NanoIdUtils.randomNanoId(NanoIdUtils.DEFAULT_NUMBER_GENERATOR, NONCE_RULE, 21)

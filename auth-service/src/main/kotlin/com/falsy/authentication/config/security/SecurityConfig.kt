@@ -1,5 +1,6 @@
 package com.falsy.authentication.config.security
 
+import com.falsy.authentication.config.security.siwe.SiweReactiveAuthenticationManager
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -7,6 +8,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
 import org.springframework.security.config.web.server.ServerHttpSecurity
 import org.springframework.security.web.server.SecurityWebFilterChain
+import org.springframework.security.web.server.context.ServerSecurityContextRepository
 import org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository
 
 /**
@@ -18,13 +20,18 @@ import org.springframework.security.web.server.context.WebSessionServerSecurityC
 @Configuration
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity(useAuthorizationManager = true)
-class SecurityConfig {
+class SecurityConfig(
+    private val siweReactiveAuthenticationManager: SiweReactiveAuthenticationManager
+) {
+    @Bean
+    fun serverSecurityContextRepository(): ServerSecurityContextRepository {
+        return WebSessionServerSecurityContextRepository()
+    }
 
     @Bean
     fun webSessionSpringSecurityFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
 
         http.csrf().disable()
-        http.securityContextRepository(WebSessionServerSecurityContextRepository())
 
         http.authorizeExchange()
             .pathMatchers(HttpMethod.POST, "/auth/**")
@@ -43,10 +50,9 @@ class SecurityConfig {
             .permitAll()
             .anyExchange().authenticated()
             .and()
-            .httpBasic()
-            .and()
-            .formLogin()
-            .disable()
+            .formLogin().disable()
+            .httpBasic().authenticationManager(this.siweReactiveAuthenticationManager)
+            .securityContextRepository(serverSecurityContextRepository())
 
         return http.build()
     }

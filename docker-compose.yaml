@@ -1,15 +1,17 @@
 version: "3.9"
 
 services:
-  authdb:
-    container_name: authdb
-    image: postgres
+  database:
+    container_name: database
+    image: scylladb/scylla:latest
     ports:
-      - 5432:5432
-    environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - "9042:9042"
+      - "10000:10000"
+      - "24:22"
+      - "7000:7000"
+      - "7001:7001"
+      - "9180:9180"
+      - "9160:9160"
     restart: on-failure
 
   redis:

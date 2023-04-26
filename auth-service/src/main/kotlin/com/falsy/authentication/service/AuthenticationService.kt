@@ -1,15 +1,18 @@
 package com.falsy.authentication.service
 
+import com.falsy.authentication.config.security.siwe.SiweAuthenticationToken
+import com.falsy.authentication.config.security.siwe.SiweReactiveAuthenticationManager
+import com.falsy.authentication.config.security.siwe.SiweReactiveUserDetailsService
 import com.falsy.authentication.model.dto.AuthenticationDto
 import com.falsy.authentication.model.entity.Account
 import com.falsy.authentication.repository.AccountRepository
-import com.moonstoneid.siwe.SiweMessage
-import com.moonstoneid.siwe.error.SiweException
-import kotlinx.coroutines.reactive.awaitFirstOrElse
 import kotlinx.coroutines.reactor.awaitSingle
 import org.slf4j.LoggerFactory
+import org.springframework.security.core.context.SecurityContextImpl
+import org.springframework.security.web.server.context.ServerSecurityContextRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
 
 
@@ -21,7 +24,13 @@ import reactor.core.publisher.Mono
  */
 @Service
 @Transactional
-class AuthenticationService(val accountRepository: AccountRepository) {
+class AuthenticationService(
+    private val accountRepository: AccountRepository,
+    private val siweReactiveUserDetailsService: SiweReactiveUserDetailsService,
+    private val siweReactiveAuthenticationManager: SiweReactiveAuthenticationManager,
+    private val serverSecurityContextRepository: ServerSecurityContextRepository
+) {
+
     companion object {
         private val logger = LoggerFactory.getLogger(AuthenticationService::class.java)
     }
@@ -35,21 +44,25 @@ class AuthenticationService(val accountRepository: AccountRepository) {
             .map { it.nonce }
     }
 
-    suspend fun authenticate(authenticationDto: AuthenticationDto): Boolean {
-        val (address, message, signature) = authenticationDto
-        val account = this.accountRepository.findByAddress(address).awaitFirstOrElse { Account(address) }
+    suspend fun authenticate(authenticationDto: AuthenticationDto, serverWebExchange: ServerWebExchange): Boolean {
         return try {
-            val siwe = SiweMessage.Parser().parse(message)
-            siwe.verify(siwe.domain, account.nonce, signature)
-            logger.info("Authenticate user ${authenticationDto.address} success")
+            val (address, message, signature) = authenticationDto
+            val userDetails = this.siweReactiveUserDetailsService.findByUsername(address).awaitSingle()
+
+            val unAuthenticated = SiweAuthenticationToken.unAuthenticated(message, signature, userDetails)
+
+            val authenticated = this.siweReactiveAuthenticationManager.authenticate(unAuthenticated).awaitSingle()
+
+            this.serverSecurityContextRepository.save(serverWebExchange, SecurityContextImpl(authenticated))
+                .awaitSingle()
             true
-        } catch (ex: SiweException) {
-            logger.error("Authenticate user ${authenticationDto.address} failure with error ${ex.errorType}")
+        } catch (exception: Exception) {
+            logger.error(
+                """Authenticated user ${authenticationDto.address} 
+                failed with error ${exception.message} 
+                and stack trace ${exception.stackTrace}""".trimIndent()
+            )
             false
-        } finally {
-            // Change nonce when authenticate
-            account.randomNonce()
-            this.accountRepository.save(account).awaitSingle()
         }
     }
 

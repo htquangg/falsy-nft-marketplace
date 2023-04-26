@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.server.ServerWebExchange
 
 /**
  * auth-service
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController
  */
 @RestController
 @RequestMapping("/auth")
-class AuthenticationController(val authenticationService: AuthenticationService) {
+class AuthenticationController(private val authenticationService: AuthenticationService) {
 
     @Operation(
         summary = "Perform challenge nonce for authentication.",
@@ -34,11 +35,14 @@ class AuthenticationController(val authenticationService: AuthenticationService)
 
     @Operation(
         summary = "Perform login action.",
-        operationId = "login"
+        operationId = "login",
     )
     @PostMapping("/login")
-    suspend fun login(@RequestBody @Valid authenticationDto: AuthenticationDto): Response<Boolean> {
-        val success = this.authenticationService.authenticate(authenticationDto)
+    suspend fun login(
+        @RequestBody @Valid authenticationDto: AuthenticationDto,
+        serverWebExchange: ServerWebExchange
+    ): Response<Boolean> {
+        val success = this.authenticationService.authenticate(authenticationDto, serverWebExchange)
         return Response.ok(success)
     }
 

@@ -1,7 +1,7 @@
 package com.falsy.authentication.repository
 
 import com.falsy.authentication.model.entity.Account
-import org.springframework.data.r2dbc.repository.R2dbcRepository
+import org.springframework.data.cassandra.repository.ReactiveCassandraRepository
 import org.springframework.stereotype.Repository
 import reactor.core.publisher.Mono
 import java.util.*
@@ -13,7 +13,7 @@ import java.util.*
  *
  */
 @Repository
-interface AccountRepository : R2dbcRepository<Account, UUID> {
+interface AccountRepository : ReactiveCassandraRepository<Account, UUID> {
 
     fun findByAddress(address: String): Mono<Account>
 }
