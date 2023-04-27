@@ -14,6 +14,7 @@
 		NavUl,
 		Navbar
 	} from 'flowbite-svelte';
+	import { mutation } from 'houdini';
 	import { SiweMessage } from 'siwe';
 
 	let user: boolean;
@@ -96,9 +97,7 @@
 		}
 	};
 
-	const signout = async () => {
-		return;
-	};
+	const logout = async () => {};
 </script>
 
 <header>
@@ -136,7 +135,7 @@
 					<DropdownItem>Watchlist</DropdownItem>
 					<DropdownItem>My Collections</DropdownItem>
 					<DropdownDivider />
-					<DropdownItem on:click={() => signout()}>Sign out</DropdownItem>
+					<DropdownItem on:click={() => logout()}>Sign out</DropdownItem>
 				</Dropdown>
 			{/if}
 		</div>

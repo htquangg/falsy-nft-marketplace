@@ -7,6 +7,7 @@ import com.falsy.authentication.model.dto.AuthenticationDto
 import com.falsy.authentication.model.entity.Account
 import com.falsy.authentication.repository.AccountRepository
 import kotlinx.coroutines.reactor.awaitSingle
+import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextImpl
 import org.springframework.security.web.server.context.ServerSecurityContextRepository
@@ -53,15 +54,12 @@ class AuthenticationService(
 
             val authenticated = this.siweReactiveAuthenticationManager.authenticate(unAuthenticated).awaitSingle()
 
-            this.serverSecurityContextRepository.save(serverWebExchange, SecurityContextImpl(authenticated))
-                .awaitSingle()
+            this.serverSecurityContextRepository
+                .save(serverWebExchange, SecurityContextImpl(authenticated))
+                .awaitSingleOrNull()
             true
         } catch (exception: Exception) {
-            logger.error(
-                """Authenticated user ${authenticationDto.address} 
-                failed with error ${exception.message} 
-                and stack trace ${exception.stackTrace}""".trimIndent()
-            )
+            logger.error("Authenticated user ${authenticationDto.address} failed with error ${exception.message}")
             false
         }
     }

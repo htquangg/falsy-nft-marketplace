@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ServerWebExchange
+import org.springframework.web.server.WebSession
 
 /**
  * auth-service
@@ -44,6 +45,16 @@ class AuthenticationController(private val authenticationService: Authentication
     ): Response<Boolean> {
         val success = this.authenticationService.authenticate(authenticationDto, serverWebExchange)
         return Response.ok(success)
+    }
+
+    @Operation(
+        summary = "Perform logout action.",
+        operationId = "logout",
+    )
+    @PostMapping("/logout")
+    suspend fun logout(webSession: WebSession): Response<Boolean> {
+        webSession.invalidate().awaitSingleOrNull()
+        return Response.ok(true)
     }
 
 }

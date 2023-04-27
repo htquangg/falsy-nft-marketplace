@@ -9,3 +9,7 @@ spring:
     local-datacenter: datacenter1
     keyspace-name: auth
 ---
+logging:
+  level:
+    org:
+      springframework: debug

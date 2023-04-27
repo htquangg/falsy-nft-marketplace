@@ -51,7 +51,8 @@ class SecurityConfig(
             .anyExchange().authenticated()
             .and()
             .formLogin().disable()
-            .httpBasic().authenticationManager(this.siweReactiveAuthenticationManager)
+            .httpBasic()
+            .authenticationManager(this.siweReactiveAuthenticationManager)
             .securityContextRepository(serverSecurityContextRepository())
 
         return http.build()

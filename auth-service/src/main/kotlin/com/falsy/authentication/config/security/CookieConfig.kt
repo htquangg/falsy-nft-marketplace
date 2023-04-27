@@ -2,7 +2,7 @@ package com.falsy.authentication.config.security
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.core.env.Environment
+import org.springframework.http.ResponseCookie
 import org.springframework.web.server.session.CookieWebSessionIdResolver
 import org.springframework.web.server.session.WebSessionIdResolver
 
@@ -17,19 +17,18 @@ import org.springframework.web.server.session.WebSessionIdResolver
 class CookieConfig {
 
     @Bean
-    fun webSessionIdResolver(environment: Environment): WebSessionIdResolver {
-        val isProd = environment.activeProfiles.contains("prod")
+    fun webSessionIdResolver(): WebSessionIdResolver {
         val resolver = CookieWebSessionIdResolver()
         resolver.cookieName = "JSESSIONID"
-        resolver.addCookieInitializer {
-            it.path(
+        resolver.addCookieInitializer { builder: ResponseCookie.ResponseCookieBuilder ->
+            builder.path(
                 "/"
             )
-            it.sameSite(
+        }
+        resolver.addCookieInitializer { builder: ResponseCookie.ResponseCookieBuilder ->
+            builder.sameSite(
                 "Strict"
             )
-            it.httpOnly(isProd)
-            it.secure(isProd)
         }
         return resolver
     }
