@@ -2,8 +2,10 @@
   "name": "gateway",
   "version": "1.0.0",
   "description": "",
+  "main": "index.ts",
   "scripts": {
-    "start": "mesh dev"
+    "start": "mesh dev",
+    "build": "mesh build"
   },
   "keywords": [
     "gateway"

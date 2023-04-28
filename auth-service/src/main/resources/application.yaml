@@ -4,7 +4,7 @@ spring:
 ---
 spring:
   cassandra:
-    compression: none
+    compression: lz4
     schema-action: create_if_not_exists
     local-datacenter: datacenter1
     keyspace-name: auth

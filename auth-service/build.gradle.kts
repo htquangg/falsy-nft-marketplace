@@ -20,6 +20,7 @@ configurations {
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
@@ -46,6 +47,7 @@ dependencies {
     implementation("com.aventrix.jnanoid:jnanoid:2.0.0")
     implementation("com.moonstoneid:siwe-java:1.0.1")
     implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.1.0")
+    implementation("org.lz4:lz4-java:1.8.0")
 }
 
 tasks.withType<KotlinCompile> {

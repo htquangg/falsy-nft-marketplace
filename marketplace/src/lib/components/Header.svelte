@@ -14,7 +14,6 @@
 		NavUl,
 		Navbar
 	} from 'flowbite-svelte';
-	import { mutation } from 'houdini';
 	import { SiweMessage } from 'siwe';
 
 	let user: boolean;
