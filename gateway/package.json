@@ -1,11 +1,14 @@
 {
   "name": "gateway",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.ts",
+  "description": "API gateway for falsy ecosystem",
   "scripts": {
-    "start": "mesh dev",
-    "build": "mesh build"
+    "mesh:build": "mesh build",
+    "prestart": "pnpm run mesh:build && pnpm run build",
+    "build": "tsc -p tsconfig.json",
+    "build:watch": "tsc -p tsconfig.json -w",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/src/index.js\"",
+    "start": "node dist/src/index.js"
   },
   "keywords": [
     "gateway"
@@ -15,6 +18,9 @@
   "dependencies": {
     "@escape.tech/graphql-armor-max-depth": "^1.8.4",
     "@escape.tech/graphql-armor-max-tokens": "^1.3.2",
+    "@fastify/cookie": "^8.3.0",
+    "@fastify/env": "^4.2.0",
+    "@fastify/session": "^10.3.0",
     "@graphql-mesh/cli": "^0.82.32",
     "@graphql-mesh/graphql": "^0.34.16",
     "@graphql-mesh/openapi": "^0.36.0",
@@ -23,6 +29,15 @@
     "@graphql-mesh/plugin-snapshot": "^0.93.1",
     "@graphql-mesh/runtime": "^0.46.23",
     "@graphql-mesh/transform-resolvers-composition": "^0.13.20",
+    "@whatwg-node/fetch": "^0.8.8",
+    "dotenv": "^16.0.3",
+    "fastify": "^4.17.0",
     "graphql": "^16.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.16.2",
+    "concurrently": "^8.0.1",
+    "nodemon": "^2.0.22",
+    "typescript": "^5.0.4"
   }
 }

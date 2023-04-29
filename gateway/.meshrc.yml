@@ -11,9 +11,7 @@ plugins:
   - maxTokens:
       maxTokenCount: 1000 # Number of tokens allowed in a document
   - maxDepth:
-      n: 10 # Number of depth allowed
-  - httpDetailsExtensions:
-      if: "env.NODE_ENV === 'development'"
+      n: 20 # Number of depth allowed
 serve:
   hostname: 0.0.0.0
   cors:

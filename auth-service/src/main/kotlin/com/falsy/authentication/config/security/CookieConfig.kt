@@ -19,7 +19,7 @@ class CookieConfig {
     @Bean
     fun webSessionIdResolver(): WebSessionIdResolver {
         val resolver = CookieWebSessionIdResolver()
-        resolver.cookieName = "JSESSIONID"
+        resolver.cookieName = "sessionId"
         resolver.addCookieInitializer { builder: ResponseCookie.ResponseCookieBuilder ->
             builder.path(
                 "/"
