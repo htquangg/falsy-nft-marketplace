@@ -6,6 +6,14 @@ sources:
         endpoint: "{env.AUTH_SERVICE}"
         ignoreErrorResponses: true
 
+additionalTypeDefs: |
+  extend type Mutation {
+    login(input: VerifyAccountDto_Input!): String
+  }
+
+additionalResolvers:
+  - src/resolvers/auth.resolver
+
 plugins:
   - deduplicateRequest: {}
   - maxTokens:

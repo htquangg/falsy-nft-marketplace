@@ -28,9 +28,7 @@
 
 	const loginMutation = graphql(`
 		mutation login($address: String!, $signature: String!, $message: String!) {
-			login(input: { address: $address, signature: $signature, message: $message }) {
-				data
-			}
+			login(input: { address: $address, signature: $signature, message: $message })
 		}
 	`);
 
