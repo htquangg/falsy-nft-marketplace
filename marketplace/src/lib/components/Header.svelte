@@ -15,8 +15,7 @@
 		Navbar
 	} from 'flowbite-svelte';
 	import { SiweMessage } from 'siwe';
-
-	let user: boolean;
+	import { page } from '$app/stores';
 
 	const challengeMutation = graphql(`
 		mutation challenge($address: String!) {
@@ -126,7 +125,7 @@
 			</NavUl>
 		</div>
 		<div class="flex md:order-2">
-			{#if !user}
+			{#if !$page.data.user}
 				<Button color="purple" on:click={() => login()}>Connect Wallet</Button>
 			{:else}
 				<Avatar
