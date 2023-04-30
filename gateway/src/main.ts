@@ -34,11 +34,11 @@ async function main(): Promise<void> {
     secret: process.env.SESSION_SECRET,
     saveUninitialized: false,
     cookie: {
-      domain: process.env.MARKETPLACE_DOMAIN as string,
+      // domain: process.env.MARKETPLACE_DOMAIN as string,
       path: "/",
       httpOnly: process.env.NODE_ENV === "production",
       maxAge: SESSION_TTL,
-      // sameSite: "lax",
+      sameSite: "lax",
       secure: process.env.NODE_ENV === "production",
     },
   });

@@ -12,6 +12,11 @@ services:
       - "7001:7001"
       - "9180:9180"
       - "9160:9160"
+    command: [
+        "cqlsh",
+        "CREATE KEYSPACE IF NOT EXISTS account WITH replication = {'class':'NetworkTopologyStrategy', 'replication_factor':3}
+        AND durable_writes = false;",
+      ]
     restart: on-failure
 
   redis:
@@ -23,47 +28,46 @@ services:
     restart: on-failure
 
   ### Service
-  # auth-service:
-  #   container_name: auth-service
-  #   image: falsyoss/auth-service:latest
-  #   build:
-  #     context: auth-service
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "8080:8080"
-  #   depends_on:
-  #     - authdb
-  #     - redis
-  #   env_file:
-  #     - auth-service/dev.env
-  #   restart: on-failure
+  account-service:
+    container_name: account-service
+    image: falsyoss/account-service:latest
+    build:
+      context: account-service
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+    env_file:
+      - account-service/dev.env
+    restart: on-failure
 
-  # gateway:
-  #   container_name: gateway
-  #   image: falsyoss/gateway:latest
-  #   build:
-  #     context: gateway
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "4000:4000"
-  #   stdin_open: true
-  #   tty: true
-  #   volumes:
-  #     - ./gateway/.meshrc.yml:/usr/src/app/.meshrc.yml
-  #   depends_on:
-  #     - auth-service
-  #   env_file:
-  #     - gateway/dev.env
-  #   restart: on-failure
+  gateway:
+    container_name: gateway
+    image: falsyoss/gateway:latest
+    build:
+      context: gateway
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./gateway/.meshrc.yml:/usr/src/app/.meshrc.yml
+    depends_on:
+      - account-service
+    env_file:
+      - gateway/dev.env
+    restart: on-failure
 
-  # marketplace:
-  #   container_name: marketplace
-  #   image: falsyoss/marketplace:latest
-  #   build:
-  #     context: marketplace
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "4567:3000"
-  #   depends_on:
-  #     - gateway
-  #   restart: on-failure
+  marketplace:
+    container_name: marketplace
+    image: falsyoss/marketplace:latest
+    build:
+      context: marketplace
+      dockerfile: Dockerfile
+    ports:
+      - "4567:3000"
+    depends_on:
+      - gateway
+    restart: on-failure

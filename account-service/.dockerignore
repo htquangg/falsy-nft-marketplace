@@ -1,0 +1,8 @@
+Dockerfile
+.dockerignore
+.idea/
+*.iml
+*.iws
+.sonar/
+.sonarlint/
+.env
