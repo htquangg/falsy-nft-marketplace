@@ -32,6 +32,12 @@
 		}
 	`);
 
+	const logoutMutation = graphql(`
+		mutation logout {
+			logout
+		}
+	`);
+
 	const login = async () => {
 		try {
 			if (window.ethereum) {
@@ -70,12 +76,7 @@
 					message
 				});
 
-				if (
-					!loginData ||
-					!loginData.login ||
-					!loginData.login.data ||
-					(loginErrors && loginErrors?.length > 0)
-				) {
+				if (!loginData || !loginData.login || (loginErrors && loginErrors?.length > 0)) {
 					// TODO emit error toast
 					return;
 				}
@@ -94,7 +95,13 @@
 		}
 	};
 
-	const logout = async () => {};
+	const logout = async () => {
+		const { data: logoutData, errors: logoutErrors } = await logoutMutation.mutate(null);
+		if (!logoutData || !logoutData.logout || (logoutErrors && logoutErrors?.length > 0)) {
+			// TODO emit error toast
+			return;
+		}
+	};
 </script>
 
 <header>

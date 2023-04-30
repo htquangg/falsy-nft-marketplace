@@ -7,6 +7,12 @@ import Redis from "ioredis";
 import { createBuiltMeshHTTPHandler } from "../.mesh";
 import { User } from "./types/user.type";
 
+declare module "@mgcrea/fastify-session" {
+  interface SessionData {
+    user: User;
+  }
+}
+
 const SESSION_TTL = 86400; // 1 day in seconds
 
 async function main(): Promise<void> {
@@ -18,15 +24,7 @@ async function main(): Promise<void> {
 
   const meshHttp = createBuiltMeshHTTPHandler();
 
-  await app.register(fastifyCookie, {
-    parseOptions: {
-      path: "/",
-      httpOnly: true,
-      maxAge: SESSION_TTL,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV !== "development",
-    },
-  });
+  await app.register(fastifyCookie);
   await app.register(fastifySession, {
     store: new RedisStore({
       client: new Redis(process.env.REDIS_URL),
@@ -34,6 +32,14 @@ async function main(): Promise<void> {
     }),
     secret: process.env.SESSION_SECRET,
     saveUninitialized: false,
+    cookie: {
+      // domain: process.env.MARKETPLACE_DOMAIN as string,
+      path: "/",
+      httpOnly: process.env.NODE_ENV === "production",
+      maxAge: SESSION_TTL,
+      // sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+    },
   });
 
   app.route({
@@ -52,12 +58,23 @@ async function main(): Promise<void> {
       // Init session if user is authenticated
       if (req.method === "POST") {
         const { operationName } = req.body as any;
-        if (operationName === "login" && response.body) {
-          const user: User = {
-            address: response.body as any,
-          };
-          console.log(JSON.stringify(user));
-          reply.setCookie("account", JSON.stringify(user));
+        switch (operationName) {
+          case "login":
+            const resp = await response.json();
+            if (resp.data.login) {
+              const user: User = {
+                address: resp.data.login,
+              };
+              req.session.set("user", user);
+            }
+            break;
+          case "logout":
+            if (req.session.get("user")) {
+              await req.session.destroy();
+            }
+            break;
+          default:
+            break;
         }
       }
 

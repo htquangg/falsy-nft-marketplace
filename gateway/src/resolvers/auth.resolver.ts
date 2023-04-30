@@ -28,6 +28,10 @@ const resolvers: Resolvers = {
 
       return response.data;
     },
+
+    async logout(root, args, context: MeshContext, info): Promise<boolean> {
+      return true;
+    },
   },
 };
 

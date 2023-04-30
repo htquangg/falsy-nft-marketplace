@@ -22,6 +22,7 @@ type Mutation {
   """Perform challenge nonce for verifying account."""
   challenge(input: ChallengeDto_Input): ResponseString
   login(input: VerifyAccountDto_Input!): String
+  logout: Boolean
 
   """Perform verify account action."""
   verifyAccount(input: VerifyAccountDto_Input): ResponseString

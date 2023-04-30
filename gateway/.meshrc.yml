@@ -9,6 +9,7 @@ sources:
 additionalTypeDefs: |
   extend type Mutation {
     login(input: VerifyAccountDto_Input!): String
+    logout: Boolean
   }
 
 additionalResolvers:
