@@ -2,7 +2,7 @@
 # BUILD FOR LOCAL DEVELOPMENT
 ###################
 
-FROM node:18-alpine As development
+FROM node:latest As development
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -12,6 +12,7 @@ WORKDIR /usr/src/app
 # Copying this first prevents re-running npm install on every code change.
 COPY --chown=node:node package*.json pnpm-lock.yaml ./
 
+RUN npm install -g npm
 RUN npm install -g pnpm
 
 # Install app dependencies using the `npm ci` command instead of `npm install`
@@ -27,7 +28,7 @@ USER node
 # BUILD FOR PRODUCTION
 ###################
 
-FROM node:18-alpine As build
+FROM node:latest As build
 
 WORKDIR /usr/src/app
 
@@ -52,7 +53,7 @@ USER node
 # PRODUCTION
 ###################
 
-FROM node:18-alpine As production
+FROM node:latest As production
 
 # Copy the bundled code from the build stage to the production image
 COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules

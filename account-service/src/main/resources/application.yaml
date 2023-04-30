@@ -5,7 +5,7 @@ spring:
 spring:
   cassandra:
     compression: lz4
-    schema-action: create_if_not_exists
+    schema-action: create-if-not-exists
     local-datacenter: ${DATA_CENTER}
     keyspace-name: ${KEYSPACE}
     contact-points: ${CONTACT_POINTS}
