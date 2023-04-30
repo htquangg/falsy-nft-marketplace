@@ -4,7 +4,6 @@ import com.falsy.account.model.entity.Account
 import org.springframework.data.cassandra.repository.ReactiveCassandraRepository
 import org.springframework.stereotype.Repository
 import reactor.core.publisher.Mono
-import java.util.*
 
 /**
  * auth-service
@@ -13,7 +12,7 @@ import java.util.*
  *
  */
 @Repository
-interface AccountRepository : ReactiveCassandraRepository<Account, UUID> {
+interface AccountRepository : ReactiveCassandraRepository<Account, String> {
 
     fun findByAddress(address: String): Mono<Account>
 }

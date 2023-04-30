@@ -41,7 +41,7 @@ class AccountService(
             val siwe = SiweMessage.Parser().parse(message)
             siwe.verify(siwe.domain, account.nonce, signature)
 
-            logger.error("Verified account ${verifyAccountDto.address} successfully")
+            logger.debug("Verified account ${verifyAccountDto.address} successfully")
             account.address
         } catch (exception: Exception) {
             logger.error("Verified account ${verifyAccountDto.address} failed with error ${exception.message}")
