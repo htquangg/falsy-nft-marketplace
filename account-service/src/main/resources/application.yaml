@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: account-service
+---
+spring:
+  cassandra:
+    compression: lz4
+    schema-action: create_if_not_exists
+    local-datacenter: ${DATA_CENTER}
+    keyspace-name: ${KEYSPACE}
+    contact-points: ${CONTACT_POINTS}
+---
+logging:
+  level:
+    org:
+      springframework: debug

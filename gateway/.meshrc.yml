@@ -1,0 +1,27 @@
+sources:
+  - name: AuthService
+    handler:
+      openapi:
+        source: "{env.AUTH_SERVICE}/v3/api-docs"
+        endpoint: "{env.AUTH_SERVICE}"
+        ignoreErrorResponses: true
+
+additionalTypeDefs: |
+  extend type Mutation {
+    login(input: VerifyAccountDto_Input!): String
+    logout: Boolean
+  }
+
+additionalResolvers:
+  - src/resolvers/auth.resolver
+
+plugins:
+  - deduplicateRequest: {}
+  - maxTokens:
+      maxTokenCount: 1000 # Number of tokens allowed in a document
+  - maxDepth:
+      n: 20 # Number of depth allowed
+serve:
+  cors:
+    credentials: true
+    origin: "*"

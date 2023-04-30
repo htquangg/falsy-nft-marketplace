@@ -1,15 +1,22 @@
 version: "3.9"
 
 services:
-  authdb:
-    container_name: authdb
-    image: postgres
+  database:
+    container_name: database
+    image: scylladb/scylla:latest
     ports:
-      - 5432:5432
-    environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - "9042:9042"
+      - "10000:10000"
+      - "24:22"
+      - "7000:7000"
+      - "7001:7001"
+      - "9180:9180"
+      - "9160:9160"
+    command: [
+        "cqlsh",
+        "CREATE KEYSPACE IF NOT EXISTS account WITH replication = {'class':'NetworkTopologyStrategy', 'replication_factor':3}
+        AND durable_writes = false;",
+      ]
     restart: on-failure
 
   redis:
@@ -18,4 +25,49 @@ services:
     ports:
       - "6379:6379"
       - "8001:8001"
+    restart: on-failure
+
+  ### Service
+  account-service:
+    container_name: account-service
+    image: falsyoss/account-service:latest
+    build:
+      context: account-service
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+    env_file:
+      - account-service/dev.env
+    restart: on-failure
+
+  gateway:
+    container_name: gateway
+    image: falsyoss/gateway:latest
+    build:
+      context: gateway
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./gateway/.meshrc.yml:/usr/src/app/.meshrc.yml
+    depends_on:
+      - account-service
+    env_file:
+      - gateway/dev.env
+    restart: on-failure
+
+  marketplace:
+    container_name: marketplace
+    image: falsyoss/marketplace:latest
+    build:
+      context: marketplace
+      dockerfile: Dockerfile
+    ports:
+      - "4567:3000"
+    depends_on:
+      - gateway
     restart: on-failure

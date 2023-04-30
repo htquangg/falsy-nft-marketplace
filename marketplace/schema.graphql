@@ -1,0 +1,46 @@
+directive @globalOptions(endpoint: String, operationHeaders: ObjMap, queryParams: ObjMap, queryStringOptions: ObjMap, sourceName: String) on OBJECT
+
+directive @httpOperation(httpMethod: HTTPMethod, isBinary: Boolean, operationSpecificHeaders: ObjMap, path: String, queryParamArgMap: ObjMap, queryStringOptionsByParam: ObjMap, requestBaseBody: ObjMap) on FIELD_DEFINITION
+
+input ChallengeDto_Input {
+  address: String!
+}
+
+enum HTTPMethod {
+  CONNECT
+  DELETE
+  GET
+  HEAD
+  OPTIONS
+  PATCH
+  POST
+  PUT
+  TRACE
+}
+
+type Mutation {
+  """Perform challenge nonce for verifying account."""
+  challenge(input: ChallengeDto_Input): ResponseString
+  login(input: VerifyAccountDto_Input!): String
+  logout: Boolean
+
+  """Perform verify account action."""
+  verifyAccount(input: VerifyAccountDto_Input): ResponseString
+}
+
+scalar ObjMap
+
+type Query {
+  dummy: String
+}
+
+type ResponseString {
+  data: String
+  status: Int!
+}
+
+input VerifyAccountDto_Input {
+  address: String!
+  message: String!
+  signature: String!
+}
