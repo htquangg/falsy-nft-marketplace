@@ -22,7 +22,6 @@ plugins:
   - maxDepth:
       n: 20 # Number of depth allowed
 serve:
-  hostname: 0.0.0.0
   cors:
     credentials: true
     origin: "*"

@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
+	import { invalidateAll } from '$app/navigation';
+	import { page } from '$app/stores';
 	import { graphql } from '$houdini';
 	import { ethers } from 'ethers';
 	import {
@@ -15,7 +17,6 @@
 		Navbar
 	} from 'flowbite-svelte';
 	import { SiweMessage } from 'siwe';
-	import { page } from '$app/stores';
 
 	const challengeMutation = graphql(`
 		mutation challenge($address: String!) {
@@ -79,6 +80,8 @@
 					// TODO emit error toast
 					return;
 				}
+				// Force all load function reload
+				await invalidateAll();
 			} else {
 				if (browser) {
 					// Redirect to metamask page
@@ -100,6 +103,8 @@
 			// TODO emit error toast
 			return;
 		}
+		// Force all load function reload
+		await invalidateAll();
 	};
 </script>
 
@@ -125,7 +130,7 @@
 			</NavUl>
 		</div>
 		<div class="flex md:order-2">
-			{#if !$page.data.user}
+			{#if !$page.data.isAuthenticated}
 				<Button color="purple" on:click={() => login()}>Connect Wallet</Button>
 			{:else}
 				<Avatar
