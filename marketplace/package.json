@@ -49,6 +49,6 @@
 		"flowbite-svelte": "^0.34.9",
 		"graphql": "^16.6.0",
 		"moment": "^2.29.4",
-		"siwe": "^1.1.6"
+		"siwe": "^2.0.0"
 	}
 }
