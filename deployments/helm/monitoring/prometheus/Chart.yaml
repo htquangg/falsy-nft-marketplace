@@ -28,7 +28,7 @@ dependencies:
   #   repository: https://prometheus-community.github.io/helm-charts
   #   condition: alertmanager.enabled
   - name: kube-state-metrics
-    version: "4.32.*"
+    version: "5.6.*"
     repository: https://prometheus-community.github.io/helm-charts
     condition: kube-state-metrics.enabled
   # - name: prometheus-node-exporter
