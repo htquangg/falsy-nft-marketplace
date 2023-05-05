@@ -2,7 +2,7 @@
 # BUILD FOR LOCAL DEVELOPMENT
 ###################
 
-FROM node:latest As development
+FROM node:latest@sha256:0efc3ef3fea2822c9d16da084c40181ed7f74b6f45141100580f9887ccc8e9a1 As development
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -28,7 +28,7 @@ USER node
 # BUILD FOR PRODUCTION
 ###################
 
-FROM node:latest As build
+FROM node:latest@sha256:0efc3ef3fea2822c9d16da084c40181ed7f74b6f45141100580f9887ccc8e9a1 As build
 
 WORKDIR /usr/src/app
 
@@ -53,7 +53,7 @@ USER node
 # PRODUCTION
 ###################
 
-FROM node:latest As production
+FROM node:latest@sha256:0efc3ef3fea2822c9d16da084c40181ed7f74b6f45141100580f9887ccc8e9a1 As production
 
 # Copy the bundled code from the build stage to the production image
 COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules

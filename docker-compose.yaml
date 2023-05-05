@@ -3,7 +3,7 @@ version: "3.9"
 services:
   database:
     container_name: database
-    image: scylladb/scylla:latest
+    image: scylladb/scylla:latest@sha256:3558ee1a01c80bec6db893c419d0507a070a966cc62dd58405581159ab3b2c10
     ports:
       - "9042:9042"
       - "10000:10000"
@@ -21,7 +21,7 @@ services:
 
   redis:
     container_name: redis
-    image: redis/redis-stack
+    image: redis/redis-stack@sha256:f32efb09d1e4f87997470efb444e8810788a5c558900a80ee562f2be5d64b481
     ports:
       - "6379:6379"
       - "8001:8001"
