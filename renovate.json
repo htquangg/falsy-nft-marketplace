@@ -40,8 +40,8 @@
   "npm":{
     "addLabels": ["lang: nodejs"]
   },
-  "yarn":{
-    "addLabels": ["lang: nodejs"]
+  "rust":{
+    "addLabels": ["lang: rust"]
   },
   "docker": {
     "pinDigests": true
