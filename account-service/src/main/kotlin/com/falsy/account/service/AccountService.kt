@@ -1,7 +1,7 @@
 package com.falsy.account.service
 
 import com.falsy.account.model.dto.VerifyAccountDto
-import com.falsy.account.model.entity.Account
+import com.falsy.account.model.entity.AccountEntity
 import com.falsy.account.repository.AccountRepository
 import com.moonstoneid.siwe.SiweMessage
 import kotlinx.coroutines.reactive.awaitFirstOrElse
@@ -26,8 +26,8 @@ class AccountService(
     }
 
     fun randomUserNonce(address: String): Mono<String> {
-        return this.accountRepository.findByAddress(address)
-            .switchIfEmpty(Mono.just(Account(address)))
+        return this.accountRepository.findByAccountPrimaryKeyAddress(address)
+            .switchIfEmpty(Mono.just(AccountEntity.newAccount(address)))
             .doOnSuccess {
                 it.randomNonce()
             }.flatMap { accountRepository.save(it) }
@@ -36,13 +36,14 @@ class AccountService(
 
     suspend fun verifySignature(verifyAccountDto: VerifyAccountDto): String? {
         val (address, message, signature) = verifyAccountDto
-        val account = this.accountRepository.findByAddress(address).awaitFirstOrElse { Account(address) }
+        val account = this.accountRepository.findByAccountPrimaryKeyAddress(address)
+            .awaitFirstOrElse { AccountEntity.newAccount(address) }
         return try {
             val siwe = SiweMessage.Parser().parse(message)
             siwe.verify(siwe.domain, account.nonce, signature)
 
             logger.debug("Verified account ${verifyAccountDto.address} successfully")
-            account.address
+            account.accountPrimaryKey.address
         } catch (exception: Exception) {
             logger.error("Verified account ${verifyAccountDto.address} failed with error ${exception.message}")
             null

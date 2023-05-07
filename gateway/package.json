@@ -4,10 +4,10 @@
   "description": "API gateway for falsy ecosystem",
   "scripts": {
     "mesh:build": "mesh build",
-    "prestart": "pnpm run mesh:build && pnpm run build",
+    "prestart": "yarn run mesh:build && yarn run build",
     "build": "tsc -p tsconfig.json",
     "build:watch": "tsc -p tsconfig.json -w",
-    "dev": "concurrently \"pnpm build:watch\" \"nodemon -q dist/src/main.js\"",
+    "dev": "concurrently \"yarn build:watch\" \"nodemon -q dist/src/main.js\"",
     "start": "node dist/src/main.js"
   },
   "keywords": [

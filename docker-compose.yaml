@@ -1,9 +1,9 @@
 version: "3.9"
 
 services:
-  database:
-    container_name: database
-    image: scylladb/scylla:latest@sha256:3558ee1a01c80bec6db893c419d0507a070a966cc62dd58405581159ab3b2c10
+  account-database:
+    container_name: account-database
+    image: scylladb/scylla:latest
     ports:
       - "9042:9042"
       - "10000:10000"
@@ -12,12 +12,9 @@ services:
       - "7001:7001"
       - "9180:9180"
       - "9160:9160"
-    command: [
-        "cqlsh",
-        "CREATE KEYSPACE IF NOT EXISTS account WITH replication = {'class':'NetworkTopologyStrategy', 'replication_factor':3}
-        AND durable_writes = false;",
-      ]
     restart: on-failure
+    networks:
+      - local_network
 
   redis:
     container_name: redis
@@ -26,8 +23,10 @@ services:
       - "6379:6379"
       - "8001:8001"
     restart: on-failure
+    networks:
+      - local_network
 
-  ### Service
+  ## Service
   account-service:
     container_name: account-service
     image: falsyoss/account-service:latest
@@ -37,10 +36,12 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - database
+      - account-database
     env_file:
-      - account-service/dev.env
+      - ./account-service/dev.env
     restart: on-failure
+    networks:
+      - local_network
 
   gateway:
     container_name: gateway
@@ -56,9 +57,10 @@ services:
       - ./gateway/.meshrc.yml:/usr/src/app/.meshrc.yml
     depends_on:
       - account-service
-    env_file:
-      - gateway/dev.env
+    env_file: ./gateway/dev.env
     restart: on-failure
+    networks:
+      - local_network
 
   marketplace:
     container_name: marketplace
@@ -67,7 +69,14 @@ services:
       context: marketplace
       dockerfile: Dockerfile
     ports:
-      - "4567:3000"
+      - "3000:3000"
     depends_on:
       - gateway
+    env_file: ./marketplace/dev.env
     restart: on-failure
+    networks:
+      - local_network
+
+networks:
+  local_network:
+    driver: bridge

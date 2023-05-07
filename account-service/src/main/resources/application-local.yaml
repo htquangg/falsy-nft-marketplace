@@ -6,8 +6,7 @@ spring:
   cassandra:
     compression: none
     schema-action: create_if_not_exists
-    local-datacenter: ${DATA_CENTER:datacenter1}
-    keyspace-name: ${KEYSPACE:account}
-    contact-points: ${CONTACT_POINTS:127.0.0.1}
+    local-datacenter: datacenter1
+    keyspace-name: account
+    contact-points: 127.0.0.1:9042
 ---
-

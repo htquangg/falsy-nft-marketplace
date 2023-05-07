@@ -1,9 +1,8 @@
 package com.falsy.account.model.entity
 
 import com.aventrix.jnanoid.jnanoid.NanoIdUtils
-import org.springframework.data.cassandra.core.cql.PrimaryKeyType
 import org.springframework.data.cassandra.core.mapping.Column
-import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
+import org.springframework.data.cassandra.core.mapping.PrimaryKey
 import org.springframework.data.cassandra.core.mapping.Table
 import java.time.Instant
 
@@ -14,12 +13,10 @@ import java.time.Instant
  *
  */
 @Table(value = "account")
-class Account(
-    @PrimaryKeyColumn(
-        type = PrimaryKeyType.PARTITIONED
-    ) val address: String
+class AccountEntity(
+    @PrimaryKey
+    val accountPrimaryKey: AccountEntityPrimaryKey
 ) {
-
     @Column(value = "display_name")
     var displayName: String? = null
 
@@ -35,9 +32,6 @@ class Account(
     @Column(value = "nonce")
     var nonce: String = ""
 
-    @Column(value = "created_date")
-    var createdDate: Instant = Instant.now()
-
     @Column(value = "modified_date")
     var modifiedDate: Instant = Instant.now()
 
@@ -47,6 +41,8 @@ class Account(
 
     companion object {
         private val NONCE_RULE = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray()
+
+        fun newAccount(address: String): AccountEntity = AccountEntity(AccountEntityPrimaryKey(address))
     }
 
 }

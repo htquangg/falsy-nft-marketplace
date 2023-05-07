@@ -1,5 +1,15 @@
-FROM eclipse-temurin:17.0.7_7-jdk-alpine@sha256:ad135147f78ddb330275438075a7177aaf9408f62d6b97ad2ecb6e66c1adc7b9
-VOLUME /tmp
-ARG JAR_FILE=/build/libs/*.jar
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","${JAVA_OPTS}","-jar","/app.jar"]
+FROM ghcr.io/graalvm/graalvm-ce:22.3.1 AS build
+
+WORKDIR /opt/app
+
+COPY --chown=nonroot:nonroot ./ .
+
+RUN ./gradlew nativeCompile
+
+FROM oraclelinux:9-slim AS production
+
+USER nonroot
+
+COPY --chown=nonroot:nonroot --from=build /opt/app/build/native/nativeCompile/account-service account-service
+
+CMD [ "sh", "-c", "./account-service" ]

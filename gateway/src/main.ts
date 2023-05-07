@@ -6,7 +6,6 @@ import fastify, { FastifyReply, FastifyRequest } from "fastify";
 import Redis from "ioredis";
 import { createBuiltMeshHTTPHandler } from "../.mesh";
 import { User } from "./types/user.type";
-
 declare module "@mgcrea/fastify-session" {
   interface SessionData {
     user: User;
@@ -38,7 +37,7 @@ async function main(): Promise<void> {
       path: "/",
       httpOnly: process.env.NODE_ENV === "production",
       maxAge: SESSION_TTL,
-      sameSite: "lax",
+      // sameSite: "lax",
       secure: process.env.NODE_ENV === "production",
     },
   });
@@ -56,7 +55,7 @@ async function main(): Promise<void> {
         reply.header(key, value);
       });
 
-      // Init session if user is authenticated
+      // Session handling
       if (req.method === "POST") {
         const { operationName } = req.body as any;
         switch (operationName) {
@@ -87,7 +86,7 @@ async function main(): Promise<void> {
     },
   });
 
-  app.listen({ port: +process.env.PORT }, (err, address) => {
+  app.listen({ host: "0.0.0.0", port: +process.env.PORT }, (err, address) => {
     if (err) {
       console.error(err);
       process.exit(1);

@@ -2,7 +2,7 @@ sources:
   - name: AuthService
     handler:
       openapi:
-        source: "{env.AUTH_SERVICE}/v3/api-docs"
+        source: ./src/specs/account-service/openapi.yaml
         endpoint: "{env.AUTH_SERVICE}"
         ignoreErrorResponses: true
 
@@ -24,4 +24,3 @@ plugins:
 serve:
   cors:
     credentials: true
-    origin: "*"

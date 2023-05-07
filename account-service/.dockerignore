@@ -6,3 +6,6 @@ Dockerfile
 .sonar/
 .sonarlint/
 .env
+bin/
+build/
+.gradle/
