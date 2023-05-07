@@ -6,7 +6,7 @@ COPY --chown=nonroot:nonroot ./ .
 
 RUN ./gradlew nativeCompile
 
-FROM oraclelinux:9-slim AS production
+FROM oraclelinux:9-slim@sha256:0e298f992c5fd7c6759b91a5c187f56d5c93d4ab9cd71b9fb266b763af95ae0d AS production
 
 USER nonroot
 

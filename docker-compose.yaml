@@ -3,7 +3,7 @@ version: "3.9"
 services:
   account-database:
     container_name: account-database
-    image: scylladb/scylla:latest
+    image: scylladb/scylla:latest@sha256:3558ee1a01c80bec6db893c419d0507a070a966cc62dd58405581159ab3b2c10
     ports:
       - "9042:9042"
       - "10000:10000"
