@@ -42,6 +42,18 @@ services:
     networks:
       - local_network
 
+  nft-service:
+    container_name: nft-service
+    image: falsyoss/nft-service:latest
+    build:
+      context: nft-service
+      dockerfile: Dockerfile
+    ports:
+      - "3333:3333"
+    restart: on-failure
+    networks:
+      - local_network
+
   gateway:
     container_name: gateway
     image: falsyoss/gateway:latest
