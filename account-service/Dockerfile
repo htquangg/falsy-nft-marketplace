@@ -1,4 +1,4 @@
-FROM eclipse-temurin:19-alpine AS build
+FROM eclipse-temurin:19-alpine@sha256:7e4fc4b3ae1bd8ed4205bfd76e4ebeefca3904653f8ee3ba6ac2427cc28b03c9 AS build
 
 WORKDIR /opt/app
 
@@ -8,7 +8,7 @@ RUN ./gradlew clean build -x test
 
 USER user
 
-FROM eclipse-temurin:19-alpine AS production
+FROM eclipse-temurin:19-alpine@sha256:7e4fc4b3ae1bd8ed4205bfd76e4ebeefca3904653f8ee3ba6ac2427cc28b03c9 AS production
 
 COPY --chown=user:user --from=build /opt/app/build/libs/*.jar app.jar
 
