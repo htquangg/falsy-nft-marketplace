@@ -896,9 +896,9 @@
     "@omnigraph/openapi" "0.93.1"
 
 "@graphql-mesh/plugin-deduplicate-request@^0.93.1":
-  version "0.93.1"
-  resolved "https://registry.yarnpkg.com/@graphql-mesh/plugin-deduplicate-request/-/plugin-deduplicate-request-0.93.1.tgz#45cce166dc589f46a80b09670abc9abaa9fab0e1"
-  integrity sha512-7zo74CxfShqU50Fwgy5gXsBb0t41rRbVKW9Utr5mYgoHuOT4P89vDIJMHeY2Y/qtkVfO6TSi2awF7n1vS7AXEg==
+  version "0.93.2"
+  resolved "https://registry.yarnpkg.com/@graphql-mesh/plugin-deduplicate-request/-/plugin-deduplicate-request-0.93.2.tgz#643755c8f6cd6f01a5385f8d8bd7d3c3c01f7f87"
+  integrity sha512-95E5R2wTlIb5J0N9aG0Hs1EkR9lzdmLrU+wcPoph/C8wAN7TVxWn1xeOYxR0ndsSCn1Uwpuu0/pTYGNm249uBQ==
 
 "@graphql-mesh/plugin-http-details-extensions@^0.93.1":
   version "0.93.1"
