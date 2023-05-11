@@ -1,4 +1,4 @@
-FROM rustlang/rust:nightly@sha256:1298565b2ebb7975751c8f6aa90310a98058e531f62998951b70e8b8410281fb AS build
+FROM rustlang/rust:nightly@sha256:3ecd7b2ccbff91785263a1ed5d8f2a236106ad76843e6fecca3d4ece7bd834c3 AS build
 
 WORKDIR /app/src
 RUN USER=root cargo new --bin nft-service
