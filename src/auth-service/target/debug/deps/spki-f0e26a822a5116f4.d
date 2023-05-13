@@ -1,0 +1,13 @@
+/Users/luke/Documents/pets/falsy-nft-marketplace/src/auth-service/target/debug/deps/spki-f0e26a822a5116f4.rmeta: /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/spki-0.5.4/src/lib.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/spki-0.5.4/src/algorithm.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/spki-0.5.4/src/error.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/spki-0.5.4/src/spki.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/spki-0.5.4/src/traits.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/spki-0.5.4/src/document.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/spki-0.5.4/src/../README.md
+
+/Users/luke/Documents/pets/falsy-nft-marketplace/src/auth-service/target/debug/deps/libspki-f0e26a822a5116f4.rlib: /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/spki-0.5.4/src/lib.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/spki-0.5.4/src/algorithm.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/spki-0.5.4/src/error.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/spki-0.5.4/src/spki.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/spki-0.5.4/src/traits.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/spki-0.5.4/src/document.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/spki-0.5.4/src/../README.md
+
+/Users/luke/Documents/pets/falsy-nft-marketplace/src/auth-service/target/debug/deps/spki-f0e26a822a5116f4.d: /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/spki-0.5.4/src/lib.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/spki-0.5.4/src/algorithm.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/spki-0.5.4/src/error.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/spki-0.5.4/src/spki.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/spki-0.5.4/src/traits.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/spki-0.5.4/src/document.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/spki-0.5.4/src/../README.md
+
+/Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/spki-0.5.4/src/lib.rs:
+/Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/spki-0.5.4/src/algorithm.rs:
+/Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/spki-0.5.4/src/error.rs:
+/Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/spki-0.5.4/src/spki.rs:
+/Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/spki-0.5.4/src/traits.rs:
+/Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/spki-0.5.4/src/document.rs:
+/Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/spki-0.5.4/src/../README.md:

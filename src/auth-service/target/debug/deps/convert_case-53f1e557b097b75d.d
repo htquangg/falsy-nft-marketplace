@@ -1,0 +1,11 @@
+/Users/luke/Documents/pets/falsy-nft-marketplace/src/auth-service/target/debug/deps/convert_case-53f1e557b097b75d.rmeta: /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/convert_case-0.6.0/src/lib.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/convert_case-0.6.0/src/case.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/convert_case-0.6.0/src/converter.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/convert_case-0.6.0/src/pattern.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/convert_case-0.6.0/src/segmentation.rs
+
+/Users/luke/Documents/pets/falsy-nft-marketplace/src/auth-service/target/debug/deps/libconvert_case-53f1e557b097b75d.rlib: /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/convert_case-0.6.0/src/lib.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/convert_case-0.6.0/src/case.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/convert_case-0.6.0/src/converter.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/convert_case-0.6.0/src/pattern.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/convert_case-0.6.0/src/segmentation.rs
+
+/Users/luke/Documents/pets/falsy-nft-marketplace/src/auth-service/target/debug/deps/convert_case-53f1e557b097b75d.d: /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/convert_case-0.6.0/src/lib.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/convert_case-0.6.0/src/case.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/convert_case-0.6.0/src/converter.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/convert_case-0.6.0/src/pattern.rs /Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/convert_case-0.6.0/src/segmentation.rs
+
+/Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/convert_case-0.6.0/src/lib.rs:
+/Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/convert_case-0.6.0/src/case.rs:
+/Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/convert_case-0.6.0/src/converter.rs:
+/Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/convert_case-0.6.0/src/pattern.rs:
+/Users/luke/.cargo/registry/src/github.com-1ecc6299db9ec823/convert_case-0.6.0/src/segmentation.rs:
