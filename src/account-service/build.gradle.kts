@@ -24,7 +24,7 @@ repositories {
 }
 
 val r2dbcDriver = "1.0.1"
-val siwe = "1.0.1"
+val siwe = "1.0.2"
 val jnanoid = "2.0.0"
 val swagger = "2.1.0"
 
