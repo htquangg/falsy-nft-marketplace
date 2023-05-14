@@ -1,8 +1,7 @@
 package com.falsy.account.repository
 
 import com.falsy.account.model.entity.AccountEntity
-import com.falsy.account.model.entity.AccountEntityPrimaryKey
-import org.springframework.data.cassandra.repository.ReactiveCassandraRepository
+import org.springframework.data.r2dbc.repository.R2dbcRepository
 import org.springframework.stereotype.Repository
 import reactor.core.publisher.Mono
 
@@ -13,7 +12,8 @@ import reactor.core.publisher.Mono
  *
  */
 @Repository
-interface AccountRepository : ReactiveCassandraRepository<AccountEntity, AccountEntityPrimaryKey> {
+interface AccountRepository : R2dbcRepository<AccountEntity, String> {
 
-    fun findByAccountPrimaryKeyAddress(address: String): Mono<AccountEntity>
+    fun findByAddress(address: String): Mono<AccountEntity>
+
 }

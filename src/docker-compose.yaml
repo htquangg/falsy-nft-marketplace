@@ -1,19 +1,19 @@
 version: "3.9"
 
 services:
-  account-database:
-    container_name: account-database
-    image: scylladb/scylla:latest@sha256:3558ee1a01c80bec6db893c419d0507a070a966cc62dd58405581159ab3b2c10
+  accountdb:
+    container_name: accountdb
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: account-database
+      MYSQL_USER: account-user
+      MYSQL_PASSWORD: P@ssw0rd
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     ports:
-      - "9042:9042"
-      - "10000:10000"
-      - "24:22"
-      - "7001:7001"
-      - "9180:9180"
-      - "9160:9160"
+      - "3306:3306"
     restart: on-failure
-    networks:
-      - local_network
 
   redis:
     container_name: redis
@@ -22,8 +22,6 @@ services:
       - "6379:6379"
       - "8001:8001"
     restart: on-failure
-    networks:
-      - local_network
 
   ## Service
   account-service:
@@ -35,24 +33,10 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - account-database
+      - accountdb
     env_file:
       - ./account-service/dev.env
     restart: on-failure
-    networks:
-      - local_network
-
-  nft-service:
-    container_name: nft-service
-    image: falsyoss/nft-service:latest
-    build:
-      context: nft-service
-      dockerfile: Dockerfile
-    ports:
-      - "3333:3333"
-    restart: on-failure
-    networks:
-      - local_network
 
   gateway:
     container_name: gateway
@@ -70,8 +54,6 @@ services:
       - account-service
     env_file: ./gateway/dev.env
     restart: on-failure
-    networks:
-      - local_network
 
   marketplace:
     container_name: marketplace
@@ -85,9 +67,3 @@ services:
       - gateway
     env_file: ./marketplace/dev.env
     restart: on-failure
-    networks:
-      - local_network
-
-networks:
-  local_network:
-    driver: bridge

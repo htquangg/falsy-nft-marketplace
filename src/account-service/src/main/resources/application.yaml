@@ -3,11 +3,13 @@ spring:
     name: account-service
 ---
 spring:
-  cassandra:
-    compression: none
-    schema-action: create_if_not_exists
-    local-datacenter: ${DATA_CENTER:datacenter1}
-    keyspace-name: ${KEYSPACE:account}
-    contact-points: ${CONTACT_POINTS:127.0.0.1}
+  r2dbc:
+    url: r2dbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/${ACCOUNT_DATABASE:account-database}
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASS:root}
+  flyway:
+    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/${ACCOUNT_DATABASE:account-database}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    user: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASS:root}
 ---
 

@@ -8,6 +8,7 @@ import kotlinx.coroutines.reactive.awaitFirstOrElse
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import reactor.core.publisher.Mono
 
 
@@ -18,6 +19,7 @@ import reactor.core.publisher.Mono
  *
  */
 @Service
+@Transactional
 class AccountService(
     private val accountRepository: AccountRepository,
 ) {
@@ -26,7 +28,7 @@ class AccountService(
     }
 
     fun randomUserNonce(address: String): Mono<String> {
-        return this.accountRepository.findByAccountPrimaryKeyAddress(address)
+        return this.accountRepository.findByAddress(address)
             .switchIfEmpty(Mono.just(AccountEntity.newAccount(address)))
             .doOnSuccess {
                 it.randomNonce()
@@ -36,14 +38,14 @@ class AccountService(
 
     suspend fun verifySignature(verifyAccountDto: VerifyAccountDto): String? {
         val (address, message, signature) = verifyAccountDto
-        val account = this.accountRepository.findByAccountPrimaryKeyAddress(address)
+        val account = this.accountRepository.findByAddress(address)
             .awaitFirstOrElse { AccountEntity.newAccount(address) }
         return try {
             val siwe = SiweMessage.Parser().parse(message)
             siwe.verify(siwe.domain, account.nonce, signature)
 
             logger.debug("Verified account ${verifyAccountDto.address} successfully")
-            account.accountPrimaryKey.address
+            account.address
         } catch (exception: Exception) {
             logger.error("Verified account ${verifyAccountDto.address} failed with error ${exception.message}")
             null
